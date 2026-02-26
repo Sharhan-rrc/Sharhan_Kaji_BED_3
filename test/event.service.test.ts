@@ -93,3 +93,39 @@ describe('Event Service', () => {
       expect(result).toBeNull();
     });
   });
+
+    describe('updateEvent', () => {
+    it('should update event successfully', async () => {
+      const mockEvent = {
+        id: 'evt_001',
+        name: 'Conference',
+        date: '2025-12-25T09:00:00.000Z',
+        capacity: 200,
+        registrationCount: 50,
+        status: 'active' as const,
+        category: 'conference' as const
+      };
+
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(mockEvent);
+      (FirestoreRepository.update as jest.Mock).mockResolvedValue(undefined);
+
+      await EventService.updateEvent('evt_001', { capacity: 300 });
+
+      expect(FirestoreRepository.update).toHaveBeenCalled();
+    });
+
+    it('should throw error if registrationCount exceeds capacity on update', async () => {
+      const mockEvent = {
+        id: 'evt_001',
+        capacity: 100,
+        registrationCount: 50,
+        status: 'active' as const
+      };
+
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(mockEvent);
+
+      await expect(
+        EventService.updateEvent('evt_001', { registrationCount: 150 })
+      ).rejects.toThrow('Registration count cannot exceed event capacity');
+    });
+  });
