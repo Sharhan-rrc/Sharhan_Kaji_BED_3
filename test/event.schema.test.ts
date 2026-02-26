@@ -43,3 +43,27 @@ describe('Event Validation Schema', () => {
         date: '2025-12-25T09:00:00.000Z',
         capacity: 4
       };
+      const { error } = createEventSchema.validate(invalidData);
+      expect(error).toBeDefined();
+    });
+  });
+
+  describe('updateEventSchema', () => {
+    it('should accept valid event update data', () => {
+      const validData = {
+        name: 'Updated Conference',
+        capacity: 300
+      };
+
+      const { error } = updateEventSchema.validate(validData);
+      expect(error).toBeUndefined();
+    });
+
+    it('should accept empty update data', () => {
+      const validData = {};
+
+      const { error } = updateEventSchema.validate(validData);
+      expect(error).toBeUndefined();
+    });
+  });
+});
