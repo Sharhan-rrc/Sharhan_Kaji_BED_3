@@ -28,7 +28,7 @@ export const createEventSchema: ObjectSchema = Joi.object({
       'string.isoDate': 'Validation error: "date" must be a valid ISO date',
       'any.invalid': 'Validation error: "date" must be greater than "now"'
     }),
-    
+
   capacity: Joi.number()
     .integer()
     .min(5)
@@ -40,4 +40,14 @@ export const createEventSchema: ObjectSchema = Joi.object({
       'number.integer': 'Validation error: "capacity" must be an integer',
       'number.min': 'Validation error: "capacity" must be greater than or equal to 5',
       'number.max': 'Validation error: "capacity" must be less than or equal to 10000'
+    }),
+
+  registrationCount: Joi.number()
+    .integer()
+    .min(0)
+    .optional()
+    .messages({
+      'number.base': 'Validation error: "registrationCount" must be a number',
+      'number.integer': 'Validation error: "registrationCount" must be an integer',
+      'number.min': 'Validation error: "registrationCount" must be greater than or equal to 0'
     }),
