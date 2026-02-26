@@ -37,3 +37,33 @@ export class EventController {
       next(error);
     }
   }
+    static async updateEvent(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { id } = req.params;
+      const eventId = Array.isArray(id) ? id[0] : id;
+      const event = await EventService.updateEvent(eventId, req.body);
+      res.status(200).json(successResponse('Event updated', event));
+    } catch (error: any) {
+      if (error.message === 'Event not found') {
+        res.status(404).json({ message: 'Event not found' });
+      } else {
+        next(error);
+      }
+    }
+  }
+
+  static async deleteEvent(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { id } = req.params;
+      const eventId = Array.isArray(id) ? id[0] : id;
+      await EventService.deleteEvent(eventId);
+      res.status(200).json(successResponse('Event deleted'));
+    } catch (error: any) {
+      if (error.message === 'Event not found') {
+        res.status(404).json({ message: 'Event not found' });
+      } else {
+        next(error);
+      }
+    }
+  }
+}
