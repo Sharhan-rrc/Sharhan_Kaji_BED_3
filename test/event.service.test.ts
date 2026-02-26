@@ -57,3 +57,39 @@ describe('Event Service', () => {
           category: 'conference' as const
         }
       ];
+
+            (FirestoreRepository.getAll as jest.Mock).mockResolvedValue(mockEvents);
+
+      const result = await EventService.getAllEvents();
+
+      expect(result).toEqual(mockEvents);
+    });
+  });
+
+  describe('getEventById', () => {
+    it('should return event by ID', async () => {
+      const mockEvent = {
+        id: 'evt_001',
+        name: 'Conference',
+        date: '2025-12-25T09:00:00.000Z',
+        capacity: 200,
+        registrationCount: 50,
+        status: 'active' as const,
+        category: 'conference' as const
+      };
+
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(mockEvent);
+
+      const result = await EventService.getEventById('evt_001');
+
+      expect(result).toEqual(mockEvent);
+    });
+
+    it('should return null if event not found', async () => {
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(null);
+
+      const result = await EventService.getEventById('non_existent');
+
+      expect(result).toBeNull();
+    });
+  });
