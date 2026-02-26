@@ -51,3 +51,25 @@ export const createEventSchema: ObjectSchema = Joi.object({
       'number.integer': 'Validation error: "registrationCount" must be an integer',
       'number.min': 'Validation error: "registrationCount" must be greater than or equal to 0'
     }),
+
+      status: Joi.string()
+    .valid('active', 'cancelled', 'completed')
+    .default('active')
+    .messages({
+      'any.only': 'Validation error: "status" must be one of [active, cancelled, completed]'
+    }),
+
+  category: Joi.string()
+    .valid('conference', 'workshop', 'meetup', 'seminar', 'general')
+    .default('general')
+    .messages({
+      'any.only': 'Validation error: "category" must be one of [conference, workshop, meetup, seminar, general]'
+    })
+}).custom((value, helpers) => {
+  if (value.registrationCount !== undefined && value.registrationCount > value.capacity) {
+    return helpers.error('any.invalid');
+  }
+  return value;
+}).messages({
+  'any.invalid': 'Validation error: "registrationCount" cannot exceed capacity'
+});
