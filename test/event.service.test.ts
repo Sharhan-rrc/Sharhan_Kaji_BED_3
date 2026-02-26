@@ -129,3 +129,34 @@ describe('Event Service', () => {
       ).rejects.toThrow('Registration count cannot exceed event capacity');
     });
   });
+
+    describe('deleteEvent', () => {
+    it('should delete event successfully', async () => {
+      const mockEvent = {
+        id: 'evt_001',
+        name: 'Conference',
+        date: '2025-12-25T09:00:00.000Z',
+        capacity: 200,
+        registrationCount: 50,
+        status: 'active' as const,
+        category: 'conference' as const
+      };
+
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(mockEvent);
+      (FirestoreRepository.delete as jest.Mock).mockResolvedValue(undefined);
+
+      await EventService.deleteEvent('evt_001');
+
+      expect(FirestoreRepository.getById).toHaveBeenCalledWith('evt_001');
+      expect(FirestoreRepository.delete).toHaveBeenCalledWith('evt_001');
+    });
+
+    it('should throw error if event not found', async () => {
+      (FirestoreRepository.getById as jest.Mock).mockResolvedValue(null);
+
+      await expect(EventService.deleteEvent('non_existent')).rejects.toThrow(
+        'Event not found'
+      );
+    });
+  });
+});
