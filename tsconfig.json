@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ES2020",
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
@@ -8,7 +8,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+
+    "rootDir": "./src",
     "outDir": "./dist",
+
     "types": ["jest", "node"],
 
     "noImplicitAny": true,
@@ -16,23 +19,9 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "alwaysStrict": true,
-
-    "baseUrl": "./",
-    "paths": {
-      "*": ["*"]
-    }
+    "alwaysStrict": true
   },
 
-  "include": [
-    "src/**/*",
-    "config/**/*",
-    "test/**/*",
-    "*.json"
-  ],
-
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test", "config"]
 }
