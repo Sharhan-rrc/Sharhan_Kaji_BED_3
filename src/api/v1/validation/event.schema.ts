@@ -73,3 +73,51 @@ export const createEventSchema: ObjectSchema = Joi.object({
 }).messages({
   'any.invalid': 'Validation error: "registrationCount" cannot exceed capacity'
 });
+
+export const updateEventSchema: ObjectSchema = Joi.object({
+  name: Joi.string()
+    .min(3)
+    .max(100)
+    .optional(),
+
+  date: Joi.string()
+    .isoDate()
+    .optional()
+    .custom((value, helpers) => {
+      if (value) {
+        const eventDate = new Date(value);
+        const now = new Date();
+        if (eventDate <= now) {
+          return helpers.error('any.invalid');
+        }
+      }
+      return value;
+    }),
+  capacity: Joi.number()
+    .integer()
+    .min(5)
+    .max(10000)
+    .optional(),
+
+  registrationCount: Joi.number()
+    .integer()
+    .min(0)
+    .optional(),
+
+  status: Joi.string()
+    .valid('active', 'cancelled', 'completed')
+    .optional(),
+
+  category: Joi.string()
+    .valid('conference', 'workshop', 'meetup', 'seminar', 'general')
+    .optional()
+}).custom((value, helpers) => {
+  if (value.registrationCount !== undefined && value.capacity !== undefined) {
+    if (value.registrationCount > value.capacity) {
+      return helpers.error('any.invalid');
+    }
+  }
+  return value;
+}).messages({
+  'any.invalid': 'Validation error: "registrationCount" must be less than or equal to ref:capacity'
+});
