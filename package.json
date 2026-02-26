@@ -14,5 +14,12 @@
     "firebase-admin": "^13.7.0",
     "joi": "^18.0.2",
     "morgan": "^1.10.1"
+  },
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch"
   }
 }
