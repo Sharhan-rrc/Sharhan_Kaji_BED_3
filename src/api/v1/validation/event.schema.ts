@@ -12,3 +12,19 @@ export const createEventSchema: ObjectSchema = Joi.object({
       'string.max': 'Validation error: "name" length must be less than or equal to 100 characters'
     }),
 
+  date: Joi.string()
+    .isoDate()
+    .required()
+    .custom((value, helpers) => {
+      const eventDate = new Date(value);
+      const now = new Date();
+      if (eventDate <= now) {
+        return helpers.error('any.invalid');
+      }
+      return value;
+    })
+    .messages({
+      'any.required': 'Validation error: "date" is required',
+      'string.isoDate': 'Validation error: "date" must be a valid ISO date',
+      'any.invalid': 'Validation error: "date" must be greater than "now"'
+    }),
