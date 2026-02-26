@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
+    "types": ["jest", "node"],
 
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -26,12 +27,12 @@
   "include": [
     "src/**/*",
     "config/**/*",
+    "test/**/*",
     "*.json"
   ],
 
   "exclude": [
     "node_modules",
-    "dist",
-    "test"
+    "dist"
   ]
 }

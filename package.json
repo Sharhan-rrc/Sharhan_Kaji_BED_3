@@ -1,5 +1,38 @@
 {
   "dependencies": {
-    "firebase-admin": "^13.7.0"
-  }
+    "express": "^5.2.1",
+    "firebase-admin": "^13.7.0",
+    "morgan": "^1.10.1"
+  },
+  "name": "sharhan_kaji_bed_3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.3.2",
+    "@types/supertest": "^7.2.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sharhan-rrc/Sharhan_Kaji_BED_3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Sharhan-rrc/Sharhan_Kaji_BED_3/issues"
+  },
+  "homepage": "https://github.com/Sharhan-rrc/Sharhan_Kaji_BED_3#readme"
 }
