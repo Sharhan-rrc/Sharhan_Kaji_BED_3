@@ -22,7 +22,7 @@ export class FirestoreRepository {
       const snapshot = await db.collection(COLLECTIONS.EVENTS).get();
       const events: Event[] = [];
 
-      snapshot.forEach((doc: { id: any; data: () => Omit<Event, "id">; }) => {
+      snapshot.forEach((doc) => {
         events.push({
           id: doc.id,
           ...(doc.data() as Omit<Event, 'id'>)
