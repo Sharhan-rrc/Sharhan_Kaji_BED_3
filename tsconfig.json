@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
-    "rootDir": "./src",
+    "rootDir": ".",                 // <— compile everything from project root
     "outDir": "./dist",
 
     "types": ["jest", "node"],
@@ -22,6 +22,15 @@
     "alwaysStrict": true
   },
 
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test", "config"]
+  "include": [
+    "src/**/*",
+    "config/**/*",                  // <— allow firebaseConfig.ts
+    "test/**/*",
+    "*.json"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
