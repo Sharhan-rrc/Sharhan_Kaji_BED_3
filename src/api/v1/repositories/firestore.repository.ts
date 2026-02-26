@@ -42,4 +42,33 @@ export class FirestoreRepository {
       if (!doc.exists) {
         return null;
       }
+      return {
+        id: doc.id,
+        ...(doc.data() as Omit<Event, 'id'>)
+      };
+    } catch (error: any) {
+      throw new Error(`Failed to fetch event: ${error.message}`);
+    }
+  }
+
+  static async update(id: string, data: Partial<Event>): Promise<void> {
+    try {
+      await db.collection(COLLECTIONS.EVENTS).doc(id).update({
+        ...data,
+        updatedAt: new Date().toISOString()
+      });
+    } catch (error: any) {
+      throw new Error(`Failed to update event: ${error.message}`);
+    }
+  }
+
+  static async delete(id: string): Promise<void> {
+    try {
+      await db.collection(COLLECTIONS.EVENTS).doc(id).delete();
+    } catch (error: any) {
+      throw new Error(`Failed to delete event: ${error.message}`);
+    }
+  }
+}
+
 
