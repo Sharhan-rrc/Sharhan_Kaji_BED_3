@@ -34,3 +34,26 @@ export class EventService {
       throw new Error('Event not found');
     }
 
+    if (
+      data.registrationCount !== undefined &&
+      data.registrationCount > (data.capacity ?? existing.capacity)
+    ) {
+      throw new Error('Registration count cannot exceed event capacity');
+    }
+
+    await FirestoreRepository.update(id, data);
+
+    const updated = await FirestoreRepository.getById(id);
+    return updated!;
+  }
+
+  static async deleteEvent(id: string): Promise<void> {
+    const existing = await FirestoreRepository.getById(id);
+
+    if (!existing) {
+      throw new Error('Event not found');
+    }
+
+    await FirestoreRepository.delete(id);
+  }
+}
