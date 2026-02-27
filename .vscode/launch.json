@@ -4,6 +4,24 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch TS (ts-node)",
+            "runtimeArgs": ["-r", "ts-node/register"],
+            "program": "${workspaceFolder}\\src\\server.ts",
+            "cwd": "${workspaceFolder}",
+            "skipFiles": ["<node_internals>/**"],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch JS (build)",
+            "program": "${workspaceFolder}\\dist\\server.js",
+            "cwd": "${workspaceFolder}",
+            "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Debug Server",
             "runtimeArgs": ["-r", "ts-node/register"],
             "program": "${workspaceFolder}/src/server.ts",
