@@ -9,8 +9,8 @@ const app: Express = express();
 app.use(express.json());
 app.use(morgan('combined'));
 
-// Health check
-app.get('/health', (_req: Request, res: Response) => {
+// Versioned Health Check
+app.get('/api/v1/health', (_req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK).json({
     status: 'OK',
     uptime: process.uptime(),
