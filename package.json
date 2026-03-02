@@ -19,6 +19,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/server.js",
-    "dev": "ts-node src/server.ts"
+    "dev": "ts-node src/server.ts",
+    "test": "jest"
   }
 }
