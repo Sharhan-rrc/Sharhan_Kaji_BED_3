@@ -1,24 +1,36 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "commonjs",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist",
-        "resolveJsonModule": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "strictPropertyInitialization": true,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "alwaysStrict": true,
-        "baseUrl": "./",
-        "paths": {
-            "*": ["*"]
-        }
-    },
-    "include": ["src/**/*", "test/**/*", "config/**/*"],
-    "exclude": ["node_modules", "dist"]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "rootDir": ".",                 // <— compile everything from project root
+    "outDir": "./dist",
+
+    "types": ["jest", "node"],
+
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "alwaysStrict": true
+  },
+
+  "include": [
+    "src/**/*",
+    "config/**/*",                  // <— allow firebaseConfig.ts
+    "test/**/*",
+    "*.json"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
