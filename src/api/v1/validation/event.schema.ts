@@ -125,7 +125,6 @@ import Joi, { ObjectSchema } from 'joi';
  *           example: "Event not found"
  */
 
-
 export const createEventSchema: ObjectSchema = Joi.object({
   name: Joi.string()
     .min(3)
@@ -178,7 +177,7 @@ export const createEventSchema: ObjectSchema = Joi.object({
       'number.min': 'Validation error: "registrationCount" must be greater than or equal to 0'
     }),
 
-      status: Joi.string()
+  status: Joi.string()
     .valid('active', 'cancelled', 'completed')
     .default('active')
     .messages({
@@ -201,11 +200,7 @@ export const createEventSchema: ObjectSchema = Joi.object({
 });
 
 export const updateEventSchema: ObjectSchema = Joi.object({
-  name: Joi.string()
-    .min(3)
-    .max(100)
-    .optional(),
-
+  name: Joi.string().min(3).max(100).optional(),
   date: Joi.string()
     .isoDate()
     .optional()
@@ -219,24 +214,10 @@ export const updateEventSchema: ObjectSchema = Joi.object({
       }
       return value;
     }),
-  capacity: Joi.number()
-    .integer()
-    .min(5)
-    .max(10000)
-    .optional(),
-
-  registrationCount: Joi.number()
-    .integer()
-    .min(0)
-    .optional(),
-
-  status: Joi.string()
-    .valid('active', 'cancelled', 'completed')
-    .optional(),
-
-  category: Joi.string()
-    .valid('conference', 'workshop', 'meetup', 'seminar', 'general')
-    .optional()
+  capacity: Joi.number().integer().min(5).max(10000).optional(),
+  registrationCount: Joi.number().integer().min(0).optional(),
+  status: Joi.string().valid('active', 'cancelled', 'completed').optional(),
+  category: Joi.string().valid('conference', 'workshop', 'meetup', 'seminar', 'general').optional()
 }).custom((value, helpers) => {
   if (value.registrationCount !== undefined && value.capacity !== undefined) {
     if (value.registrationCount > value.capacity) {
@@ -245,5 +226,5 @@ export const updateEventSchema: ObjectSchema = Joi.object({
   }
   return value;
 }).messages({
-  'any.invalid': 'Validation error: "registrationCount" must be less than or equal to ref:capacity'
+  'any.invalid': 'Validation error: "registrationCount" must be less than or equal to "capacity"'
 });
