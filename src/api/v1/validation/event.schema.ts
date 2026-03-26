@@ -1,5 +1,131 @@
 import Joi, { ObjectSchema } from 'joi';
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     CreateEvent:
+ *       type: object
+ *       required:
+ *         - name
+ *         - date
+ *         - capacity
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "Tech Conference 2025"
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-12-01T09:00:00.000Z"
+ *         capacity:
+ *           type: integer
+ *           minimum: 5
+ *           maximum: 10000
+ *           example: 200
+ *         registrationCount:
+ *           type: integer
+ *           minimum: 0
+ *           example: 0
+ *         status:
+ *           type: string
+ *           enum: [active, cancelled, completed]
+ *           default: active
+ *         category:
+ *           type: string
+ *           enum: [conference, workshop, meetup, seminar, general]
+ *           default: general
+ *     UpdateEvent:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 100
+ *           example: "Updated Conference Name"
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-12-15T09:00:00.000Z"
+ *         capacity:
+ *           type: integer
+ *           minimum: 5
+ *           maximum: 10000
+ *           example: 300
+ *         registrationCount:
+ *           type: integer
+ *           minimum: 0
+ *           example: 50
+ *         status:
+ *           type: string
+ *           enum: [active, cancelled, completed]
+ *         category:
+ *           type: string
+ *           enum: [conference, workshop, meetup, seminar, general]
+ *     Event:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: "abc123"
+ *         name:
+ *           type: string
+ *           example: "Tech Conference 2025"
+ *         date:
+ *           type: string
+ *           format: date-time
+ *           example: "2025-12-01T09:00:00.000Z"
+ *         capacity:
+ *           type: integer
+ *           example: 200
+ *         registrationCount:
+ *           type: integer
+ *           example: 0
+ *         status:
+ *           type: string
+ *           enum: [active, cancelled, completed]
+ *           example: active
+ *         category:
+ *           type: string
+ *           enum: [conference, workshop, meetup, seminar, general]
+ *           example: conference
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-01-15T10:30:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-01-20T14:45:00Z"
+ *     EventResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: "Event created"
+ *         data:
+ *           $ref: '#/components/schemas/Event'
+ *     EventListResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: "Events retrieved"
+ *         data:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Event'
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: "Event not found"
+ */
+
+
 export const createEventSchema: ObjectSchema = Joi.object({
   name: Joi.string()
     .min(3)
