@@ -152,7 +152,7 @@ curl -X PUT http://localhost:3000/api/v1/events/abc123 \
 ## Link to Public Documentation
 Full API documentation is available at:
 
-`https://<your-github-username>.github.io/<your-repo-name>/`
+`https://sharhan-rrc.github.io/Sharhan_Kaji_BED_3/`
 
 ## Local Documentation Access
 When running locally, access Swagger UI at:
