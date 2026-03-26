@@ -29,7 +29,7 @@
     "build": "tsc",
     "start": "node dist/src/server.js",
     "dev": "ts-node src/server.ts",
-    "test": "jest"
+    "test": "jest",
     "generate-docs": "ts-node scripts/generate-openapi.ts && npx @redocly/cli build-docs openapi.json --output docs/index.html"
   }
 }
