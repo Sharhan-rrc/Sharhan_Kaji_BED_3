@@ -142,6 +142,39 @@ router.put(
   EventController.updateEvent
 );
 
+
+/**
+ * @openapi
+ * /events/{id}:
+ *   delete:
+ *     summary: Delete an event by ID
+ *     tags: [Events]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The event ID
+ *     responses:
+ *       '200':
+ *         description: Event deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Event deleted
+ *       '404':
+ *         description: Event not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 // DELETE /api/v1/events/:id
 router.delete('/events/:id', EventController.deleteEvent);
 
