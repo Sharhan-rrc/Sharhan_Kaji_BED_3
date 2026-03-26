@@ -15,3 +15,16 @@ export const getHelmetConfig = () => {
       hsts: false, // No HTTPS enforcement in development
     });
   }
+
+    // Production configuration
+  return helmet({
+    ...baseConfig,
+    hsts: {
+      maxAge: 31536000,        // 1 year in seconds
+      includeSubDomains: true,
+      preload: true,
+    },
+    frameguard: { action: "deny" },         // Prevents clickjacking
+    referrerPolicy: { policy: "no-referrer" }, // Hides referrer info
+  });
+};
