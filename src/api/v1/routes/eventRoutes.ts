@@ -6,6 +6,33 @@ import { createEventSchema, updateEventSchema } from '../validation/event.schema
 
 const router = Router();
 
+/**
+ * @openapi
+ * /events:
+ *   post:
+ *     summary: Create a new event
+ *     tags: [Events]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateEvent'
+ *     responses:
+ *       '201':
+ *         description: Event created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EventResponse'
+ *       '400':
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 // POST /api/v1/events
 router.post(
   '/events',
