@@ -95,6 +95,46 @@ router.get('/events', EventController.getAllEvents);
 // GET /api/v1/events/:id
 router.get('/events/:id', EventController.getEventById);
 
+/**
+ * @openapi
+ * /events/{id}:
+ *   put:
+ *     summary: Update an event by ID
+ *     tags: [Events]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The event ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateEvent'
+ *     responses:
+ *       '200':
+ *         description: Event updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EventResponse'
+ *       '400':
+ *         description: Validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       '404':
+ *         description: Event not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 // PUT /api/v1/events/:id
 router.put(
   '/events/:id',
