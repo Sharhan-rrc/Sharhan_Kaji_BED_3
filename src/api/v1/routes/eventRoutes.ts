@@ -64,6 +64,34 @@ router.post(
 // GET /api/v1/events
 router.get('/events', EventController.getAllEvents);
 
+/**
+ * @openapi
+ * /events/{id}:
+ *   get:
+ *     summary: Get a single event by ID
+ *     tags: [Events]
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The event ID
+ *     responses:
+ *       '200':
+ *         description: Event found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EventResponse'
+ *       '404':
+ *         description: Event not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 // GET /api/v1/events/:id
 router.get('/events/:id', EventController.getEventById);
 
