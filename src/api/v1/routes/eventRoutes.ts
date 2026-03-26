@@ -40,6 +40,27 @@ router.post(
   EventController.createEvent
 );
 
+/**
+ * @openapi
+ * /events:
+ *   get:
+ *     summary: Get all events
+ *     tags: [Events]
+ *     responses:
+ *       '200':
+ *         description: List of all events
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/EventListResponse'
+ *       '500':
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
 // GET /api/v1/events
 router.get('/events', EventController.getAllEvents);
 
