@@ -13,3 +13,27 @@ const getFirebaseConfig = (): AppOptions => {
       "Missing Firebase configuration. Please check your environment variables."
     );
   }
+
+  const serviceAccount: ServiceAccount = {
+    projectId: FIREBASE_PROJECT_ID,
+    clientEmail: FIREBASE_CLIENT_EMAIL,
+    privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  };
+
+  return {
+    credential: cert(serviceAccount),
+  };
+};
+
+const initializeFirebaseAdmin = (): App => {
+  const existingApp: App = getApps()[0];
+  if (existingApp) {
+    return existingApp;
+  }
+  return initializeApp(getFirebaseConfig());
+};
+
+const app: App = initializeFirebaseAdmin();
+const db: Firestore = getFirestore(app);
+
+export { db };
