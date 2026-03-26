@@ -1,9 +1,21 @@
-# Security Configuration
+# Security Configuration Justification
+
+This file explains why Helmet and CORS were configured the way they are in this API.
 
 ## Helmet.js Configuration
 
 ### Configuration Applied
+
 ```typescript
+// Development
+helmet({
+  contentSecurityPolicy: false,
+  hidePoweredBy: true,
+  noSniff: true,
+  hsts: false,
+});
+
+// Production
 helmet({
   contentSecurityPolicy: false,
   hidePoweredBy: true,
@@ -18,31 +30,47 @@ helmet({
 });
 ```
 
-### What Was Configured
+### Why These Choices Were Made
 
-1. **contentSecurityPolicy: false** — Disabled because this API only returns JSON data, not HTML. CSP is designed to prevent XSS in browsers rendering HTML content and is not applicable here.
+1. **contentSecurityPolicy: false**  
+   Disabled because this project is a JSON API and does not render HTML pages. CSP is mainly useful for controlling scripts/resources in browser-rendered pages.
 
-2. **hidePoweredBy: true** — Removes the `X-Powered-By: Express` header. This prevents attackers from knowing what technology stack is used, reducing targeted attacks.
+2. **hidePoweredBy: true**  
+   Removes the `X-Powered-By` header so the app does not reveal it is running on Express. This reduces stack fingerprinting.
 
-3. **noSniff: true** — Sets `X-Content-Type-Options: nosniff`. Prevents browsers from MIME-sniffing the content type, which can lead to XSS attacks.
+3. **noSniff: true**  
+   Sends `X-Content-Type-Options: nosniff` to stop MIME sniffing. This helps prevent browsers from interpreting files as a different type.
 
-4. **hsts** — Sets `Strict-Transport-Security` with a 1-year max-age. Forces clients to use HTTPS, protecting data in transit from man-in-the-middle attacks.
+4. **hsts: false in development**  
+   HSTS is disabled in local development because local environments often use HTTP.
 
-5. **frameguard: { action: "deny" }** — Sets `X-Frame-Options: DENY`. Prevents the API responses from being embedded in iframes, protecting against clickjacking.
+5. **hsts enabled in production**  
+   In production, HSTS is enabled with 1 year max-age, subdomains, and preload to enforce HTTPS and reduce downgrade/MITM risks.
 
-6. **referrerPolicy: { policy: "no-referrer" }** — Sets `Referrer-Policy: no-referrer`. Prevents sending referrer information in requests, protecting sensitive URL data.
+6. **frameguard: deny (production)**  
+   Sets `X-Frame-Options: DENY` to prevent clickjacking by blocking iframe embedding.
 
-### External Sources
+7. **referrerPolicy: no-referrer (production)**  
+   Prevents referrer information from being sent, reducing accidental URL data leakage.
 
-1. Helmet.js Official Documentation — https://helmetjs.github.io/
-2. OWASP Secure Headers Project — https://owasp.org/www-project-secure-headers/
+### Sources
 
----
+1. Helmet.js official documentation: https://helmetjs.github.io/
+2. OWASP Secure Headers Project: https://owasp.org/www-project-secure-headers/
+3. MDN - Strict-Transport-Security: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
 
 ## CORS Configuration
 
 ### Configuration Applied
+
 ```typescript
+// Development
+cors({
+  origin: true,
+  credentials: true,
+});
+
+// Production
 cors({
   origin: process.env.ALLOWED_ORIGINS?.split(",") || [],
   credentials: true,
@@ -51,69 +79,25 @@ cors({
 });
 ```
 
-### What Was Configured
+### Why These Choices Were Made
 
-1. **origin** — In production, only explicitly listed origins from environment variables are allowed. This prevents unauthorized domains from accessing the API.
+1. **origin: true in development**  
+   Allows easier local testing from different local frontend ports.
 
-2. **credentials: true** — Allows cookies and authorization headers to be sent with cross-origin requests. Required for authenticated API calls.
+2. **origin from ALLOWED_ORIGINS in production**  
+   Only trusted origins from environment variables can call the API from browsers. This reduces cross-origin abuse.
 
-3. **methods** — Only allows HTTP methods the API actually uses (GET, POST, PUT, DELETE, OPTIONS). OPTIONS is required for preflight requests.
+3. **credentials: true**  
+   Allows credentials for cross-origin requests when needed (for example cookies or auth flows).
 
-4. **allowedHeaders** — Restricts which headers can be sent. `Content-Type` is needed for JSON bodies; `Authorization` is needed for future auth implementation.
+4. **methods restricted in production**  
+   Only methods used by this API are allowed: GET, POST, PUT, DELETE, OPTIONS.
 
-### External Sources
+5. **allowedHeaders restricted in production**  
+   Only required headers are allowed: `Content-Type` for JSON and `Authorization` for auth tokens.
 
-1. MDN Web Docs — CORS: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-2. OWASP CORS Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
-```
+### Sources
 
----
-
-## STEP 16 — Update `.gitignore`
-
-Make sure these lines are in your `.gitignore`:
-```
-.env
-serviceAccountKey.json
-node_modules/
-openapi.json
-```
-
----
-
-## 📁 Final Folder Structure
-
-Here's what your project should look like after all changes:
-```
-project-root/
-├── .env                          ← NEW (gitignored)
-├── .env.example                  ← NEW
-├── .gitignore                    ← UPDATED
-├── SECURITY.md                   ← NEW
-├── README.md                     ← UPDATE (add docs links + examples)
-├── package.json                  ← UPDATED (add generate-docs script)
-├── .github/
-│   └── workflows/
-│       └── deploy-docs.yml       ← NEW
-├── scripts/
-│   └── generate-openapi.ts       ← NEW
-└── src/
-    ├── app.ts                    ← UPDATED
-    ├── server.ts                 ← unchanged
-    ├── config/
-    │   ├── firebaseConfig.ts     ← UPDATED (env vars)
-    │   ├── helmetConfig.ts       ← NEW
-    │   ├── corsConfig.ts         ← NEW
-    │   ├── swaggerOptions.ts     ← NEW
-    │   └── swagger.ts            ← NEW
-    ├── constants/
-    │   └── httpConstants.ts      ← unchanged
-    └── api/v1/
-        ├── routes/
-        │   └── eventRoutes.ts    ← UPDATED (JSDoc added)
-        ├── validation/
-        │   └── event.schema.ts   ← UPDATED (JSDoc added)
-        ├── controllers/          
-        ├── services/             
-        ├── repositories/         
-        └── models/               
+1. MDN - CORS guide: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
+2. Express CORS middleware docs: https://expressjs.com/en/resources/middleware/cors.html
+3. OWASP - CORS guidance (HTML5 Security Cheat Sheet): https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html
