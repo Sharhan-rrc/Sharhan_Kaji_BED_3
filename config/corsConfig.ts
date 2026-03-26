@@ -9,3 +9,12 @@ export const getCorsOptions = () => {
       credentials: true,
     });
   }
+
+    // Production: strict origins
+  return cors({
+    origin: process.env.ALLOWED_ORIGINS?.split(",") || [],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  });
+};
